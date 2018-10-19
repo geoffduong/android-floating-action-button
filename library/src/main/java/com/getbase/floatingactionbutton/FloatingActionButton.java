@@ -20,11 +20,14 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -124,6 +127,16 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
+  public void setIconTint(@ColorInt int color) {
+    if(mIcon != 0) {
+      Drawable icon = ContextCompat.getDrawable(getContext(), mIcon);
+      if(icon != null) {
+        DrawableCompat.setTint(icon, color);
+        updateBackground();
+      }
+    }
+  }
+
   public void setIconDrawable(@NonNull Drawable iconDrawable) {
     if (mIconDrawable != iconDrawable) {
       mIcon = 0;
@@ -210,6 +223,12 @@ public class FloatingActionButton extends ImageButton {
     TextView label = getLabelView();
     if (label != null) {
       label.setText(title);
+    }
+  }
+
+  public void setLabelBackgroundColor(@ColorInt int color) {
+    if(getLabelView() != null && getLabelView().getBackground() != null) {
+      DrawableCompat.setTint(getLabelView().getBackground(), color);
     }
   }
 
